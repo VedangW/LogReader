@@ -11,8 +11,7 @@ The ```num_entries``` flag denotes the number of JSON objects which will be gene
 
 To start the server, build the package and run as follows:
 ```bash
-go build main.go models.go handlers.go utils.go
-./main
+sh build.sh
 ```
 
 To connect to the SQL server, enter the ```openLink``` parameter in ```main.go```. 
