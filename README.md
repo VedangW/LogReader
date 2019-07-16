@@ -20,7 +20,7 @@ To connect to the SQL server, enter the ```openLink``` parameter in ```main.go``
 
 Requests can be sent to the API endpoints using Postman. 
 
-To use the API as an admin, start the URIs as ```localhost:3000/admin```.
+To use the API as an admin, start the URIs with ```localhost:3000/admin```, and ```localhost:3000/user``` to use as a user.
 
 Store a JSON entry into the DB:
 ```
