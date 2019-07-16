@@ -45,7 +45,17 @@ Store a JSON entry into the DB:
 
 Retrieve a JSON entry from DB based on ID:
 ```
-(GET) localhost:3000/user/<id>
+(GET) localhost:3000/user/findid/<eid>
+```
+
+Retrieve JSON entries from DB based on User ID:
+```
+(GET) localhost:3000/user/finduser/<uid>
+```
+
+Retrieve JSON entries from DB based on validity of order (```ov``` can be ```yes``` or ```no```):
+```
+(GET) localhost:3000/user/findvalid/<ov>
 ```
 
 Store a file into the DB:
