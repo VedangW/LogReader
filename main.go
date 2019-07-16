@@ -28,15 +28,19 @@ func main() {
 	adminapi := router.Group("/admin")
 	{
 		adminapi.POST("/", CreateDynJsonObject)
-		adminapi.GET("/:eid", GetDynJsonObjectWithIdAdmin)
 		adminapi.POST("/store", DynStoreFileInDb)
+		adminapi.GET("/findid/:eid", GetDynJsonObjectWithIdAdmin)
+		adminapi.GET("/finduser/:uid", GetDynJSONObjectWithUserIDAdmin)
+		adminapi.GET("/findvalid/:ov", GetDynJSONObjectWithOrderValidAdmin)
 	}
 
 	userapi := router.Group("/user")
 	{
 		userapi.POST("/", CreateDynJsonObject)
-		userapi.GET("/:eid", GetDynJsonObjectWithIdUser)
 		userapi.POST("/store", DynStoreFileInDb)
+		userapi.GET("/findid/:eid", GetDynJsonObjectWithIdUser)
+		userapi.GET("/finduser/:uid", GetDynJSONObjectWithUserIDUser)
+		userapi.GET("/findvalid/:ov", GetDynJSONObjectWithOrderValidUser)
 	}
 
 	router.Run(":3000")

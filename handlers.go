@@ -26,6 +26,74 @@ func GetDynJsonObjectWithIdAdmin(c *gin.Context) {
 	}
 }
 
+func GetDynJSONObjectWithUserIDAdmin(c *gin.Context) {
+	id := c.Params.ByName("uid")
+
+	var dynentry DynJsonEntry
+	var result map[string]interface{}
+
+	if err := Db.Where("user_id = ?", id).First(&dynentry).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		_ = json.Unmarshal([]byte(dynentry.Extra), &result)
+		jsonout := ResultToJson("admin", result, dynentry)
+
+		c.JSON(200, jsonout)
+	}
+}
+
+func GetDynJSONObjectWithUserIDUser(c *gin.Context) {
+	id := c.Params.ByName("uid")
+
+	var dynentry DynJsonEntry
+	var result map[string]interface{}
+
+	if err := Db.Where("user_id = ?", id).First(&dynentry).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		_ = json.Unmarshal([]byte(dynentry.Extra), &result)
+		jsonout := ResultToJson("user", result, dynentry)
+
+		c.JSON(200, jsonout)
+	}
+}
+
+func GetDynJSONObjectWithOrderValidAdmin(c *gin.Context) {
+	id := c.Params.ByName("ov")
+
+	var dynentry DynJsonEntry
+	var result map[string]interface{}
+
+	if err := Db.Where("order_valid = ?", id).First(&dynentry).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		_ = json.Unmarshal([]byte(dynentry.Extra), &result)
+		jsonout := ResultToJson("admin", result, dynentry)
+
+		c.JSON(200, jsonout)
+	}
+}
+
+func GetDynJSONObjectWithOrderValidUser(c *gin.Context) {
+	id := c.Params.ByName("ov")
+
+	var dynentry DynJsonEntry
+	var result map[string]interface{}
+
+	if err := Db.Where("order_valid = ?", id).First(&dynentry).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		_ = json.Unmarshal([]byte(dynentry.Extra), &result)
+		jsonout := ResultToJson("user", result, dynentry)
+
+		c.JSON(200, jsonout)
+	}
+}
+
 func GetDynJsonObjectWithIdUser(c *gin.Context) {
 	id := c.Params.ByName("eid")
 
