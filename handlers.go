@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
-	"encoding/json"
+	"sync"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -24,7 +26,6 @@ func GetDynJsonObjectWithIdAdmin(c *gin.Context) {
 	}
 }
 
-
 func GetDynJsonObjectWithIdUser(c *gin.Context) {
 	id := c.Params.ByName("eid")
 
@@ -42,8 +43,6 @@ func GetDynJsonObjectWithIdUser(c *gin.Context) {
 	}
 }
 
-
-
 func CreateDynJsonObject(c *gin.Context) {
 	bytesVal, _ := ioutil.ReadAll(c.Request.Body)
 
@@ -57,9 +56,7 @@ func CreateDynJsonObject(c *gin.Context) {
 	c.JSON(200, dynEntry)
 }
 
-
-
-func DynStoreFileInDb(c *gin.Context){
+func DynStoreFileInDb(c *gin.Context) {
 	var filepath FilePath
 	c.BindJSON(&filepath)
 
@@ -70,18 +67,27 @@ func DynStoreFileInDb(c *gin.Context){
 
 	data, err := ioutil.ReadFile(pathToReadFile)
 
-    if err != nil {
-    	fmt.Print(err)
-    }
+	if err != nil {
+		fmt.Print(err)
+	}
 
-    var jsonInt []map[string]interface{}
+	var jsonInt []map[string]interface{}
 	_ = json.Unmarshal(data, &jsonInt)
 
+	var wg sync.WaitGroup
+
 	for i := 0; i < len(jsonInt); i++ {
-		var dynTemp DynJsonEntry
-		dynTemp = JsonToDynObj(jsonInt[i])
-		Db.Create(&dynTemp)
+
+		wg.Add(1)
+		go func(jsonMap map[string]interface{}) {
+			var dynTemp DynJsonEntry
+			dynTemp = JsonToDynObj(jsonMap)
+			Db.Create(&dynTemp)
+			wg.Done()
+		}(jsonInt[i])
 	}
+
+	wg.Wait()
 
 	c.JSON(200, "Created.")
 }

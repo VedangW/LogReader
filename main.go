@@ -3,14 +3,14 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-    _ "github.com/jinzhu/gorm/dialects/mysql"
+	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 var Db *gorm.DB
 
 func init() {
 	var err error
-	
+
 	openLink := "Hi"
 
 	Db, err = gorm.Open("mysql", openLink)
